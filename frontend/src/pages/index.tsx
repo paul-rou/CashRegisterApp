@@ -1,5 +1,6 @@
 import { GetStaticProps } from "next/types";
 import prisma from "../lib/prisma";
+import ProductLayout from "@/components/ProductLayout/ProductLayout";
 
 interface Product {
   id: number;
@@ -9,31 +10,17 @@ interface Product {
   numberInStock: number;
 }
 
-const addProduct = async () => {
-  const product = await prisma.product.create({
-    data: {
-      photoLink: "photolink",
-      name: "Miel de printemps",
-      price: 5,
-      numberInStock: 20,
-    },
-  });
-};
-
 export default function Cash({ products }: { products: Product[] }) {
   return (
-    <>
+    <div>
       <h1>Home directory</h1>
       <p>Here is the cash register board</p>
-      <button onClick={() => console.log(products)}>
-        Click here to add product
-      </button>
-    </>
+      <ProductLayout />
+    </div>
   );
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  await addProduct();
   const products = await prisma.product.findMany();
   return {
     props: { products },

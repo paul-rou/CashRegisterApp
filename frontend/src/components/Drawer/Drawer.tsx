@@ -1,4 +1,4 @@
-import { NavigationElement } from "../Layout/layout";
+import { NavigationElement } from "../Layout/Layout";
 import DrawerNavigationElement from "./DrawerNavigationElement";
 
 const Drawer = ({
