@@ -1,6 +1,6 @@
 const SaleSummary = () => {
   return (
-    <div className="mt-3 bg-white shadow-md p-3">
+    <div className="mt-3 bg-white shadow-md pt-3 pl-2 pb-3 pr-8">
       <h2>
         <strong>Récapitulatif</strong>
       </h2>

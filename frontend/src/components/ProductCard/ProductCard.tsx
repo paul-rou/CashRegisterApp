@@ -22,7 +22,7 @@ const ProductCard = () => {
         <p>
           <strong>5</strong>€
         </p>
-        <div className="flex gap-1 mt-3">
+        <div className="flex gap-1 mt-3 justify-center">
           <button className="pt-1 pb-1 pl-3 pr-3 rounded-2xl shadow-md bg-green-500 text-slate-200 hover:bg-green-600">
             Ajouter
           </button>
