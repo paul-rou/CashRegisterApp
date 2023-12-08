@@ -7,7 +7,7 @@ const Drawer = ({
   navigationElementNames: NavigationElement[];
 }) => {
   return (
-    <nav className="flex flex-col text-center bg-[#EEEEEE] w-[200px] h-full">
+    <nav className="flex flex-col text-center bg-[#EEEEEE] w-[200px] h-full shrink-0">
       {navigationElementNames.map((navigationElement, i) => (
         <DrawerNavigationElement
           name={navigationElement.name}
