@@ -1,6 +1,7 @@
 import { GetStaticProps } from "next/types";
 import prisma from "../lib/prisma";
 import ProductLayout from "@/components/ProductLayout/ProductLayout";
+import CashHeaderLayout from "@/components/CashHeaderLayout/CashHeaderLayout";
 
 interface Product {
   id: number;
@@ -13,8 +14,7 @@ interface Product {
 export default function Cash({ products }: { products: Product[] }) {
   return (
     <div>
-      <h1>Home directory</h1>
-      <p>Here is the cash register board</p>
+      <CashHeaderLayout />
       <ProductLayout />
     </div>
   );
