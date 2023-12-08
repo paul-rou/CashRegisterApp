@@ -3,7 +3,7 @@ import prisma from "../lib/prisma";
 import ProductLayout from "@/components/ProductLayout/ProductLayout";
 import CashHeaderLayout from "@/components/CashHeaderLayout/CashHeaderLayout";
 
-interface Product {
+export interface Product {
   id: number;
   photoLink: string;
   name: string;
@@ -15,7 +15,7 @@ export default function Cash({ products }: { products: Product[] }) {
   return (
     <div>
       <CashHeaderLayout />
-      <ProductLayout />
+      <ProductLayout isProduct />
     </div>
   );
 }

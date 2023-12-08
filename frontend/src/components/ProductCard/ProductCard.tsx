@@ -1,7 +1,8 @@
 import Image from "next/image";
 import honeyImage from "./miel.jpg";
+import { ReactNode } from "react";
 
-const ProductCard = () => {
+const ProductCard = ({ children }: { children: ReactNode }) => {
   return (
     <div className="flex h-[200px] w-[320px] p-3 rounded-xl shadow-md bg-white">
       <div className="mt-auto mb-auto">
@@ -22,14 +23,7 @@ const ProductCard = () => {
         <p>
           <strong>5</strong>€
         </p>
-        <div className="flex gap-1 mt-3 justify-center">
-          <button className="pt-1 pb-1 pl-3 pr-3 rounded-2xl shadow-md bg-green-500 text-slate-200 hover:bg-green-600">
-            Ajouter
-          </button>
-          <button className="pt-1 pb-1 pl-3 pr-3 rounded-2xl shadow-md bg-red-500 text-slate-200 hover:bg-red-600">
-            Retirer
-          </button>
-        </div>
+        {children}
       </div>
     </div>
   );

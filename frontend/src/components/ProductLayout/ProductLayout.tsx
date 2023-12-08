@@ -1,18 +1,36 @@
-import ProductCard from "../ProductCard/ProductCard";
+import ProductCashCard from "../ProductCashCard/ProductCashCard";
+import ProductStorageCard from "../ProductStorageCard/ProductStorageCard";
 
-const ProductLayout = () => {
+const ProductLayout = ({ isProduct }: { isProduct: boolean }) => {
   return (
     <div className="flex flex-wrap ml-4 gap-3">
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
+      {isProduct ? (
+        <>
+          <ProductCashCard />
+          <ProductCashCard />
+          <ProductCashCard />
+          <ProductCashCard />
+          <ProductCashCard />
+          <ProductCashCard />
+          <ProductCashCard />
+          <ProductCashCard />
+          <ProductCashCard />
+          <ProductCashCard />
+        </>
+      ) : (
+        <>
+          <ProductStorageCard />
+          <ProductStorageCard />
+          <ProductStorageCard />
+          <ProductStorageCard />
+          <ProductStorageCard />
+          <ProductStorageCard />
+          <ProductStorageCard />
+          <ProductStorageCard />
+          <ProductStorageCard />
+          <ProductStorageCard />
+        </>
+      )}
     </div>
   );
 };
