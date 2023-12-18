@@ -1,8 +1,8 @@
 import { GetStaticProps } from "next/types";
-import prisma from "../lib/prisma";
 import ProductLayout from "@/components/ProductLayout/ProductLayout";
 import CashHeaderLayout from "@/components/CashHeaderLayout/CashHeaderLayout";
 import { trpc } from "@/utils/trpc";
+import prisma from "@/lib/prisma";
 
 export interface Product {
   id: number;
@@ -23,7 +23,7 @@ export default function Cash({ products }: { products: Product[] }) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const products = trpc.getProducts.useQuery().data;
+  const products = await prisma.product.findMany();
 
   return {
     props: { products },
