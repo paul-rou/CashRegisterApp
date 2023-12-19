@@ -1,3 +1,4 @@
+import { trpc } from "@/utils/trpc";
 import {
   Modal,
   ModalOverlay,
@@ -8,9 +9,26 @@ import {
   ModalCloseButton,
   useDisclosure,
 } from "@chakra-ui/react";
+import { FormEvent } from "react";
 
 const ProductDialogAddForm = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { mutateAsync: asyncInsertProduct } = trpc.insertProduct.useMutation();
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const result = await asyncInsertProduct({
+        name: e.currentTarget.name.value,
+        price: Number(e.currentTarget.price.value),
+        numberInStock: Number(e.currentTarget.numberInStock.value),
+        photoLink: e.currentTarget.photo.value,
+      });
+      console.log(result, "this is the query result");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <button
@@ -26,7 +44,12 @@ const ProductDialogAddForm = () => {
           <ModalCloseButton />
           <ModalBody>
             <p>Remplir le formulaire suivant pour ajouter un produit</p>
-            <form className="flex flex-col mt-4 gap-4">
+            <form
+              onSubmit={(e) => {
+                handleSubmit(e);
+              }}
+              className="flex flex-col mt-4 gap-4"
+            >
               <div className="flex justify-between">
                 <label htmlFor="name" className="font-semibold">
                   Nom du produit
@@ -75,6 +98,7 @@ const ProductDialogAddForm = () => {
                   className="border-2"
                 />
               </div>
+              <input type="submit" />
             </form>
           </ModalBody>
 
