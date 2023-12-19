@@ -15,7 +15,7 @@ export default function Storage({ products }: { products: Product[] }) {
   return (
     <div>
       <StorageHeaderLayout />
-      <ProductLayout isProduct={false} />
+      <ProductLayout products={products} isProduct={false} />
     </div>
   );
 }

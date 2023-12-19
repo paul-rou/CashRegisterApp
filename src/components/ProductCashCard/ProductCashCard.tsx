@@ -1,8 +1,9 @@
+import { Product } from "@/pages";
 import ProductCard from "../ProductCard/ProductCard";
 
-const ProductCashCard = () => {
+const ProductCashCard = ({ product }: { product: Product }) => {
   return (
-    <ProductCard>
+    <ProductCard product={product}>
       <div className="flex gap-1 mt-3 justify-center">
         <button className="pt-1 pb-1 pl-3 pr-3 rounded-2xl shadow-md bg-green-500 text-slate-200 hover:bg-green-600">
           Ajouter

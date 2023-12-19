@@ -1,7 +1,6 @@
 import { GetStaticProps } from "next/types";
 import ProductLayout from "@/components/ProductLayout/ProductLayout";
 import CashHeaderLayout from "@/components/CashHeaderLayout/CashHeaderLayout";
-import { trpc } from "@/utils/trpc";
 import prisma from "@/lib/prisma";
 
 export interface Product {
@@ -13,11 +12,10 @@ export interface Product {
 }
 
 export default function Cash({ products }: { products: Product[] }) {
-  console.log(products, "From backend");
   return (
     <div>
       <CashHeaderLayout />
-      <ProductLayout isProduct />
+      <ProductLayout products={products} isProduct />
     </div>
   );
 }
