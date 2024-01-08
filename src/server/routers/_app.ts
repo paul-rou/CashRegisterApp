@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { publicProcedure, router } from '../trpc';
 import prisma from "../../lib/prisma";
-import { productSchema } from '@/schema/product.schema';
+import { fullProductSchema, productSchema } from '@/schema/product.schema';
 
 export const appRouter = router({
   hello: publicProcedure
@@ -51,7 +51,28 @@ export const appRouter = router({
       result: result,
       products: products,
     }
-})
+  }),
+  updateProductAndGetProducts: publicProcedure.input(fullProductSchema).mutation(async ({input})=>{
+    const {id, name, price, numberInStock, photoLink } = input;
+    const result = await prisma.product.update({
+        where: {
+          id: id
+        },
+        data: {
+          name: name,
+          price: price,
+          numberInStock: numberInStock,
+          photoLink: photoLink,
+        }
+    })
+    const products = await prisma.product.findMany();
+    return {
+      status: "201",
+      message: "Product updated successfully",
+      result: result,
+      products: products,
+    }
+  })
 });
 
 export type AppRouter = typeof appRouter;

@@ -1,5 +1,3 @@
-import { Product } from "@/pages";
-import { trpc } from "@/utils/trpc";
 import {
   Modal,
   ModalOverlay,
@@ -9,41 +7,23 @@ import {
   ModalCloseButton,
   useDisclosure,
 } from "@chakra-ui/react";
+import { Product } from "@prisma/client";
 import { FormEvent } from "react";
 
-const ProductDialogAddForm = ({
-  setNewProducts,
+const ProductDialogForm = ({
+  product,
+  handleSubmit,
+  children,
 }: {
-  setNewProducts: (products: Product[]) => void;
+  product?: Product;
+  handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  children: React.ReactNode;
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { mutateAsync: asyncInsertProductAndGetProducts } =
-    trpc.insertProductAndGetProducts.useMutation();
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      const result = await asyncInsertProductAndGetProducts({
-        name: e.currentTarget.name.value,
-        price: Number(e.currentTarget.price.value),
-        numberInStock: Number(e.currentTarget.numberInStock.value),
-        photoLink: e.currentTarget.photo.value,
-      }).then((res) => {
-        if (res.products) setNewProducts(res.products);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <>
-      <button
-        onClick={onOpen}
-        className="bg-green-500 hover:bg-green-600 pt-2 pb-2 pl-4 pr-4 text-slate-100 shadow-md font-medium rounded-md"
-      >
-        Ajouter Nouveau Produit
-      </button>
+      <div onClick={onOpen}>{children}</div>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -68,6 +48,7 @@ const ProductDialogAddForm = ({
                   name="name"
                   required
                   className="border-2"
+                  defaultValue={product?.name}
                 />
               </div>
               <div className="flex justify-between">
@@ -81,6 +62,7 @@ const ProductDialogAddForm = ({
                   step="0.01"
                   required
                   className="border-2"
+                  defaultValue={product?.price}
                 />
               </div>
               <div className="flex justify-between">
@@ -93,6 +75,7 @@ const ProductDialogAddForm = ({
                   name="numberInStock"
                   required
                   className="border-2"
+                  defaultValue={product?.numberInStock}
                 />
               </div>
               <div className="flex justify-between">
@@ -128,4 +111,4 @@ const ProductDialogAddForm = ({
   );
 };
 
-export default ProductDialogAddForm;
+export default ProductDialogForm;

@@ -7,4 +7,7 @@ export const productSchema = z.object({
     photoLink: z.string(),
 })
 
+export const fullProductSchema = productSchema.extend({id: z.number()})
+
 export type productSchema = z.infer<typeof productSchema>
+export type fullProductSchema = z.infer<typeof fullProductSchema>

@@ -15,7 +15,7 @@ export default function Cash({ products }: { products: Product[] }) {
   return (
     <div>
       <CashHeaderLayout />
-      <ProductLayout products={products} isProduct />
+      <ProductLayout products={products} />
     </div>
   );
 }

@@ -1,16 +1,59 @@
 import { GetStaticProps } from "next/types";
 import prisma from "../lib/prisma";
-import ProductLayout from "@/components/ProductLayout/ProductLayout";
 import StorageHeaderLayout from "@/components/StorageHeaderLayout/StorageHeaderLayout";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Product } from ".";
+import { trpc } from "@/utils/trpc";
+import ProductStorageLayout from "@/components/ProductStorageLayout/ProductStorageLayout";
 
 export default function Storage({ products }: { products: Product[] }) {
   const [newProducts, setNewProducts] = useState<Product[]>(products);
+
+  const { mutateAsync: asyncInsertProductAndGetProducts } =
+    trpc.insertProductAndGetProducts.useMutation();
+  const { mutateAsync: asyncUpdateProductAndGetProducts } =
+    trpc.updateProductAndGetProducts.useMutation();
+
+  const handleAdd = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const result = await asyncInsertProductAndGetProducts({
+        name: e.currentTarget.name.value,
+        price: Number(e.currentTarget.price.value),
+        numberInStock: Number(e.currentTarget.numberInStock.value),
+        photoLink: e.currentTarget.photo.value,
+      }).then((res) => {
+        if (res.products) setNewProducts(res.products);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleUpdate = async (e: FormEvent<HTMLFormElement>, id: number) => {
+    e.preventDefault();
+    try {
+      const result = await asyncUpdateProductAndGetProducts({
+        id: id,
+        name: e.currentTarget.name.value,
+        price: Number(e.currentTarget.price.value),
+        numberInStock: Number(e.currentTarget.numberInStock.value),
+        photoLink: e.currentTarget.photo.value,
+      }).then((res) => {
+        if (res.products) setNewProducts(res.products);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
-      <StorageHeaderLayout setNewProducts={setNewProducts} />
-      <ProductLayout products={newProducts} isProduct={false} />
+      <StorageHeaderLayout handleAdd={handleAdd} />
+      <ProductStorageLayout
+        products={newProducts}
+        handleUpdate={handleUpdate}
+      />
     </div>
   );
 }
