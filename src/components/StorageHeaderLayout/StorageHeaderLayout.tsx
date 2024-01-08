@@ -1,7 +1,12 @@
+import { Product } from "@/pages";
 import ProductDialogAddForm from "../ProductDialogAddForm/ProductDialogAddForm";
 import StorageEditSummary from "../StorageEditSummary/StorageEditSummary";
 
-const StorageHeaderLayout = () => {
+const StorageHeaderLayout = ({
+  setNewProducts,
+}: {
+  setNewProducts: (products: Product[]) => void;
+}) => {
   return (
     <div className="ml-4 mt-3 mb-5">
       <div className="flex">
@@ -11,7 +16,7 @@ const StorageHeaderLayout = () => {
             Confirmer Modifications
           </button>
 
-          <ProductDialogAddForm />
+          <ProductDialogAddForm setNewProducts={setNewProducts} />
         </div>
       </div>
     </div>

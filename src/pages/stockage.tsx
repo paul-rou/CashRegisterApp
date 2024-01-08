@@ -2,20 +2,15 @@ import { GetStaticProps } from "next/types";
 import prisma from "../lib/prisma";
 import ProductLayout from "@/components/ProductLayout/ProductLayout";
 import StorageHeaderLayout from "@/components/StorageHeaderLayout/StorageHeaderLayout";
-
-export interface Product {
-  id: number;
-  photoLink: string;
-  name: string;
-  price: number;
-  numberInStock: number;
-}
+import { useState } from "react";
+import { Product } from ".";
 
 export default function Storage({ products }: { products: Product[] }) {
+  const [newProducts, setNewProducts] = useState<Product[]>(products);
   return (
     <div>
-      <StorageHeaderLayout />
-      <ProductLayout products={products} isProduct={false} />
+      <StorageHeaderLayout setNewProducts={setNewProducts} />
+      <ProductLayout products={newProducts} isProduct={false} />
     </div>
   );
 }

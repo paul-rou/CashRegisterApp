@@ -1,11 +1,11 @@
-import { GetStaticProps } from "next/types";
+import { GetServerSideProps } from "next/types";
 import ProductLayout from "@/components/ProductLayout/ProductLayout";
 import CashHeaderLayout from "@/components/CashHeaderLayout/CashHeaderLayout";
 import prisma from "@/lib/prisma";
 
 export interface Product {
   id: number;
-  photoLink: string;
+  photoLink: string | null;
   name: string;
   price: number;
   numberInStock: number;
@@ -20,7 +20,7 @@ export default function Cash({ products }: { products: Product[] }) {
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const products = await prisma.product.findMany();
 
   return {

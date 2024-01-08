@@ -1,34 +1,41 @@
+import { Product } from "@/pages";
 import { trpc } from "@/utils/trpc";
 import {
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
   useDisclosure,
 } from "@chakra-ui/react";
 import { FormEvent } from "react";
 
-const ProductDialogAddForm = () => {
+const ProductDialogAddForm = ({
+  setNewProducts,
+}: {
+  setNewProducts: (products: Product[]) => void;
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { mutateAsync: asyncInsertProduct } = trpc.insertProduct.useMutation();
+  const { mutateAsync: asyncInsertProductAndGetProducts } =
+    trpc.insertProductAndGetProducts.useMutation();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const result = await asyncInsertProduct({
+      const result = await asyncInsertProductAndGetProducts({
         name: e.currentTarget.name.value,
         price: Number(e.currentTarget.price.value),
         numberInStock: Number(e.currentTarget.numberInStock.value),
         photoLink: e.currentTarget.photo.value,
+      }).then((res) => {
+        if (res.products) setNewProducts(res.products);
       });
-      console.log(result, "this is the query result");
     } catch (error) {
       console.log(error);
     }
   };
+
   return (
     <>
       <button
@@ -47,6 +54,7 @@ const ProductDialogAddForm = () => {
             <form
               onSubmit={(e) => {
                 handleSubmit(e);
+                onClose();
               }}
               className="flex flex-col mt-4 gap-4"
             >
@@ -70,6 +78,7 @@ const ProductDialogAddForm = () => {
                   type="number"
                   id="price"
                   name="price"
+                  step="0.01"
                   required
                   className="border-2"
                 />
@@ -94,25 +103,25 @@ const ProductDialogAddForm = () => {
                   type="text"
                   id="photo"
                   name="photo"
-                  required
                   className="border-2"
                 />
               </div>
-              <input type="submit" />
+              <div className="flex gap-2 justify-end">
+                <button
+                  onClick={onClose}
+                  className="px-2 py-1 bg-red-500 text-slate-100 shadow-md font-medium rounded-md"
+                >
+                  Fermer
+                </button>
+                <button
+                  type="submit"
+                  className="px-2 py-1 bg-green-500 text-slate-100 shadow-md font-medium rounded-md"
+                >
+                  Enregistrer le Produit
+                </button>
+              </div>
             </form>
           </ModalBody>
-
-          <ModalFooter className="flex gap-2">
-            <button
-              onClick={onClose}
-              className="px-2 py-1 bg-red-500 text-slate-100 shadow-md font-medium rounded-md"
-            >
-              Fermer
-            </button>
-            <button className="px-2 py-1 bg-green-500 text-slate-100 shadow-md font-medium rounded-md">
-              Enregistrer le Produit
-            </button>
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </>
