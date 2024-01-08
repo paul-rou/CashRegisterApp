@@ -13,6 +13,8 @@ export default function Storage({ products }: { products: Product[] }) {
     trpc.insertProductAndGetProducts.useMutation();
   const { mutateAsync: asyncUpdateProductAndGetProducts } =
     trpc.updateProductAndGetProducts.useMutation();
+  const { mutateAsync: asyncDeleteProductAndGetProducts } =
+    trpc.deleteProductAndGetProducts.useMutation();
 
   const handleAdd = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -47,11 +49,23 @@ export default function Storage({ products }: { products: Product[] }) {
     }
   };
 
+  const deleteProduct = async (id: number) => {
+    try {
+      console.log(id, "from front deleteProduct");
+      const result = await asyncDeleteProductAndGetProducts(id).then((res) => {
+        if (res.products) setNewProducts(res.products);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <StorageHeaderLayout handleAdd={handleAdd} />
       <ProductStorageLayout
         products={newProducts}
+        deleteProduct={deleteProduct}
         handleUpdate={handleUpdate}
       />
     </div>

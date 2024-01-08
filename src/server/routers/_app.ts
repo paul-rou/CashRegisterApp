@@ -34,6 +34,20 @@ export const appRouter = router({
         result: result,
       }
   }),
+  deleteProductAndGetProducts: publicProcedure.input(z.number()).mutation(async ({input})=>{
+    const result = await prisma.product.delete({
+        where: {
+            id: Number(input)
+        }
+    })
+    const products = await prisma.product.findMany();
+    return {
+      status: "201",
+      message: "Product deleted successfully",
+      result: result,
+      products: products,
+    }
+}),
   insertProductAndGetProducts: publicProcedure.input(productSchema).mutation(async ({input})=>{
     const {name, price, numberInStock, photoLink } = input;
     const result = await prisma.product.create({

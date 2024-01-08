@@ -4,9 +4,11 @@ import { FormEvent } from "react";
 
 const ProductStorageLayout = ({
   products,
+  deleteProduct,
   handleUpdate,
 }: {
   products: Product[];
+  deleteProduct: (id: number) => void;
   handleUpdate: (e: FormEvent<HTMLFormElement>, id: number) => void;
 }) => {
   if (products) {
@@ -17,6 +19,7 @@ const ProductStorageLayout = ({
             <ProductStorageCard
               product={product}
               key={product.id}
+              deleteProduct={deleteProduct}
               handleUpdateProductId={(e: FormEvent<HTMLFormElement>) =>
                 handleUpdate(e, product.id)
               }
