@@ -16,7 +16,10 @@ const ProductLayout = ({
             <ProductCashCard
               product={product}
               key={product.id}
-              addProduct={() => handleProductToSale(product.id, true)}
+              addProduct={() => {
+                if (product.numberInStock)
+                  handleProductToSale(product.id, true);
+              }}
               removeProduct={() => handleProductToSale(product.id, false)}
             />
           ))}
