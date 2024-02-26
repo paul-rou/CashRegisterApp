@@ -11,8 +11,8 @@ const ProductCard = ({
   children: ReactNode;
 }) => {
   return (
-    <div className="flex h-[200px] w-[320px] p-3 rounded-xl shadow-md bg-white">
-      <div className="mt-auto mb-auto">
+    <div className="flex h-[200px] w-[340px] p-3 rounded-xl shadow-md bg-white">
+      <div className="m-auto">
         <Image
           src={honeyImage}
           width={120}
