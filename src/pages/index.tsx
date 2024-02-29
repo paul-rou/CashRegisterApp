@@ -2,7 +2,8 @@ import { GetServerSideProps } from "next/types";
 import ProductLayout from "@/components/ProductLayout/ProductLayout";
 import CashHeaderLayout from "@/components/CashHeaderLayout/CashHeaderLayout";
 import prisma from "@/lib/prisma";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
+import { trpc } from "@/utils/trpc";
 
 export interface Product {
   id: number;
@@ -22,6 +23,9 @@ export interface ProductSaleRecap {
 export default function Cash({ products }: { products: Product[] }) {
   const [productsToSale, setProductsToSale] = useState<ProductSaleRecap[]>([]);
   const [productsToShow, setProductsToShow] = useState<Product[]>(products);
+
+  const { mutateAsync: asyncAddSellsAndGetProducts } =
+    trpc.addMultipleSellsAndGetProducts.useMutation();
 
   const handleProductToSale = (productId: number, addOne: Boolean) => {
     const alreadyInCart = productsToSale.find(
@@ -82,9 +86,31 @@ export default function Cash({ products }: { products: Product[] }) {
     }
   };
 
+  const postSale = async (e: FormEvent<HTMLFormElement>) => {
+    if (!productsToSale) return;
+    try {
+      const sales = productsToSale.map((product) => {
+        return {
+          price: product.price,
+          date: e.currentTarget.date.value,
+          productName: product.name,
+          numberSold: product.quantity,
+          paymentMethod: e.currentTarget.paymentMethod.value,
+          marketLocation: e.currentTarget.marketLocation.value,
+        };
+      });
+      const result = await asyncAddSellsAndGetProducts(sales).then((res) => {
+        if (res.products) setProductsToShow(res.products);
+      });
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div>
-      <CashHeaderLayout productsToSale={productsToSale} />
+      <CashHeaderLayout productsToSale={productsToSale} postSale={postSale} />
       <ProductLayout
         products={productsToShow}
         handleProductToSale={handleProductToSale}

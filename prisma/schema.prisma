@@ -34,4 +34,6 @@ model Sell {
   numberSold Int
 
   paymentMethod String
+
+  marketLocation String
 }
