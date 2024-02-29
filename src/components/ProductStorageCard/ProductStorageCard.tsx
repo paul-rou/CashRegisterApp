@@ -2,6 +2,7 @@ import { Product } from "@/pages";
 import ProductCard from "../ProductCard/ProductCard";
 import { FormEvent } from "react";
 import ProductDialogForm from "../ProductDialogForm/ProductDialogForm";
+import DeleteDialog from "../DeleteDialog/DeleteDialog";
 
 const ProductStorageCard = ({
   product,
@@ -23,12 +24,11 @@ const ProductStorageCard = ({
             Modifier Produit
           </button>
         </ProductDialogForm>
-        <button
-          onClick={() => deleteProduct(product.id)}
-          className="pt-1 pb-1 pl-3 pr-3 rounded-2xl shadow-md bg-red-500 text-slate-100 hover:bg-red-600"
-        >
-          Supprimer Produit
-        </button>
+        <DeleteDialog deleteProduct={() => deleteProduct(product.id)}>
+          <button className="pt-1 pb-1 pl-3 pr-3 rounded-2xl shadow-md bg-red-500 text-slate-100 hover:bg-red-600">
+            Supprimer Produit
+          </button>
+        </DeleteDialog>
       </div>
     </ProductCard>
   );
