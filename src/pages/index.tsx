@@ -1,4 +1,4 @@
-import { GetServerSideProps } from "next/types";
+import { GetStaticProps } from "next/types";
 import ProductLayout from "@/components/ProductLayout/ProductLayout";
 import CashHeaderLayout from "@/components/CashHeaderLayout/CashHeaderLayout";
 import prisma from "@/lib/prisma";
@@ -87,10 +87,12 @@ export default function Cash({ products }: { products: Product[] }) {
   };
 
   const postSale = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (!productsToSale) return;
     try {
       const sales = productsToSale.map((product) => {
         return {
+          id: product.id,
           price: product.price,
           date: e.currentTarget.date.value,
           productName: product.name,
@@ -101,6 +103,7 @@ export default function Cash({ products }: { products: Product[] }) {
       });
       const result = await asyncAddSellsAndGetProducts(sales).then((res) => {
         if (res.products) setProductsToShow(res.products);
+        setProductsToSale([]);
       });
       console.log(result);
     } catch (error) {
@@ -119,7 +122,7 @@ export default function Cash({ products }: { products: Product[] }) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const products = await prisma.product.findMany();
 
   return {

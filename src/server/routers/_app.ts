@@ -89,7 +89,26 @@ export const appRouter = router({
   }),
   addMultipleSellsAndGetProducts: publicProcedure.input(arraySellSchema).mutation(async ({input})=>{
     const sells = input;
-    const results = await Promise.all(sells.map(sell => prisma.sell.create({ data: sell })));
+    const results = await Promise.all(sells.map(sell => prisma.sell.create({ data: {
+      date: sell.date,
+      productName: sell.productName,
+      price: sell.price,
+      numberSold: sell.numberSold,
+      paymentMethod: sell.paymentMethod,
+      marketLocation: sell.marketLocation,
+    } })));
+    for (const sell of sells) {
+      await prisma.product.update({
+        where: {
+          id: sell.id
+        },
+        data: {
+            numberInStock: {
+              decrement: sell.numberSold,
+            } 
+        }
+      });
+    }
     const products = await prisma.product.findMany();
     return {
       status: "201",
