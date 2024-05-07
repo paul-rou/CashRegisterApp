@@ -1,3 +1,4 @@
+import SaleTable from "@/components/SaleTable/SaleTable";
 import prisma from "@/lib/prisma";
 import { GetStaticProps } from "next";
 
@@ -11,30 +12,20 @@ export interface Sell {
   marketLocation: string;
 }
 
-export default function History({ sell }: { sell: Sell[] }) {
+export default function History({ sells }: { sells: Sell[] }) {
   return (
     <>
-      <h1>History page</h1>
-      <div className="flex flex-col">
-        {sell?.map((sell) => (
-          <div key={sell.id}>
-            <p>{sell.date}</p>
-            <p>{sell.productName}</p>
-            <p>{sell.price}</p>
-            <p>{sell.numberSold}</p>
-            <p>{sell.paymentMethod}</p>
-            <p>{sell.marketLocation}</p>
-          </div>
-        ))}
+      <div className="ml-3 mt-2 flex flex-col">
+        <SaleTable sells={sells} />
       </div>
     </>
   );
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const sell = await prisma.sell.findMany();
+  const sells = await prisma.sell.findMany();
 
   return {
-    props: { sell },
+    props: { sells },
   };
 };

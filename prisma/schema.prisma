@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,29 +8,19 @@ datasource db {
 }
 
 model Product {
-  id Int @id @default(autoincrement())
-
-  photoLink String?
-
-  name String
-
-  price Float
-
+  id            Int     @id @default(autoincrement())
+  photoLink     String?
+  name          String
+  price         Float
   numberInStock Int
 }
 
 model Sell {
-  id Int @id @default(autoincrement())
-
-  date String
-
-  productName String
-
-  price Float
-
-  numberSold Int
-
-  paymentMethod String
-
+  id             Int    @id @default(autoincrement())
+  date           String
+  productName    String
+  price          Float
+  numberSold     Int
+  paymentMethod  String
   marketLocation String
 }
