@@ -9,7 +9,7 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider>
       <Layout>
-        <Component {...pageProps} />;
+        <Component {...pageProps} />
       </Layout>
     </ChakraProvider>
   );
