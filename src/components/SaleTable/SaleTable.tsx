@@ -9,9 +9,10 @@ import {
 import { useMemo } from "react";
 import DisplayTable from "./DisplayTable";
 import TablePaginationController from "./TablePaginationController";
+import { getDisplayableTableFromSell } from "@/lib/fromDatabaseToDisplayTable";
 
 const SaleTable = ({ sells }: { sells: Sell[] }) => {
-  const data = sells;
+  const data = useMemo(() => getDisplayableTableFromSell(sells), [sells]);
 
   const columns: ColumnDef<Sell>[] = useMemo(
     () => [
