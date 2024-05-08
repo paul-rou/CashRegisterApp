@@ -66,7 +66,9 @@ const SaleDialogForm = ({
                 </select>
               </div>
               <div className="flex justify-between">
-                <label htmlFor="date">Date</label>
+                <label htmlFor="date" className="font-semibold">
+                  Date
+                </label>
                 <input
                   type="date"
                   id="date"
@@ -77,7 +79,9 @@ const SaleDialogForm = ({
                 />
               </div>
               <div className="flex justify-between">
-                <label htmlFor="client">Client</label>
+                <label htmlFor="client" className="font-semibold">
+                  Client
+                </label>
                 <input
                   type="text"
                   id="client"
