@@ -1,32 +1,67 @@
 import { Sell } from "@/pages/historique";
-import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
+import {
+  useReactTable,
+  getCoreRowModel,
+  getPaginationRowModel,
+  ColumnDef,
+  getSortedRowModel,
+} from "@tanstack/react-table";
+import { useMemo } from "react";
+import DisplayTable from "./DisplayTable";
+import TablePaginationController from "./TablePaginationController";
 
 const SaleTable = ({ sells }: { sells: Sell[] }) => {
+  const data = sells;
+
+  const columns: ColumnDef<Sell>[] = useMemo(
+    () => [
+      {
+        accessorKey: "date",
+        header: () => "Date",
+        footer: (props) => props.column.id,
+      },
+      {
+        accessorKey: "productName",
+        header: () => "Produit",
+        footer: (props) => props.column.id,
+      },
+      {
+        accessorKey: "numberSold",
+        header: () => "Quantité",
+        footer: (props) => props.column.id,
+      },
+      {
+        accessorKey: "price",
+        header: () => "Prix",
+        footer: (props) => props.column.id,
+      },
+      {
+        accessorKey: "paymentMethod",
+        header: () => "Moyen de paiement",
+        footer: (props) => props.column.id,
+      },
+      {
+        accessorKey: "marketLocation",
+        header: () => "Marché",
+        footer: (props) => props.column.id,
+      },
+    ],
+    []
+  );
+
+  const table = useReactTable({
+    columns,
+    data,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(), //load client-side pagination code
+  });
+
   return (
-    <Table variant="simple">
-      <Thead>
-        <Tr>
-          <Th>Date</Th>
-          <Th>Produit</Th>
-          <Th>Quantité</Th>
-          <Th>Prix</Th>
-          <Th>Moyen de paiement</Th>
-          <Th>Marché</Th>
-        </Tr>
-      </Thead>
-      <Tbody>
-        {sells?.map((sell) => (
-          <Tr key={sell.id}>
-            <Td>{sell.date}</Td>
-            <Td>{sell.productName}</Td>
-            <Td>{sell.numberSold}</Td>
-            <Td>{sell.price}</Td>
-            <Td>{sell.paymentMethod}</Td>
-            <Td>{sell.marketLocation}</Td>
-          </Tr>
-        ))}
-      </Tbody>
-    </Table>
+    <div className="flex flex-col">
+      <DisplayTable table={table} />
+      <TablePaginationController table={table} />
+    </div>
   );
 };
 
