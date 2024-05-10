@@ -8,6 +8,7 @@ import {
   Td,
 } from "@chakra-ui/react";
 import { flexRender, type Table } from "@tanstack/react-table";
+import { ChevronRightIcon, ChevronLeftIcon } from "@chakra-ui/icons";
 
 const DisplayTable = ({ table }: { table: Table<Sell> }) => {
   return (
@@ -30,8 +31,16 @@ const DisplayTable = ({ table }: { table: Table<Sell> }) => {
                     header.getContext()
                   )}
                   {{
-                    asc: " 🔼",
-                    desc: " 🔽",
+                    asc: (
+                      <ChevronRightIcon
+                        h={5}
+                        w={5}
+                        className="mb-1 rotate-90"
+                      />
+                    ),
+                    desc: (
+                      <ChevronLeftIcon h={5} w={5} className="mb-1 rotate-90" />
+                    ),
                   }[header.column.getIsSorted() as string] ?? null}
                 </div>
               </Th>
