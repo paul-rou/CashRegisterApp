@@ -20,9 +20,12 @@ const marketLocationTranslation: {
 const getDisplayableTableFromSell = (sells: Sell[]): Sell[] => {
 
     const displayableSells = sells.map((sell) => {
+        const date = new Date(sell.date)
+        const frenchDate = date.toLocaleDateString('fr-FR')
+
         return {
             id: sell.id,
-            date: sell.date,
+            date: frenchDate,
             productName: sell.productName,
             numberSold: sell.numberSold,
             price: sell.price * sell.numberSold,

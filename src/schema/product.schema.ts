@@ -17,6 +17,10 @@ export const sellSchema = z.object({
     marketLocation: z.string(),
 })
 
+export const dateFilterSchema = z.object({
+    startDate : z.string(),
+    endDate : z.string(),
+})
 
 export const fullProductSchema = productSchema.extend({id: z.number()})
 export const arraySellSchema = z.array(sellSchema)
@@ -26,3 +30,5 @@ export type fullProductSchema = z.infer<typeof fullProductSchema>
 
 export type sellSchema = z.infer<typeof sellSchema>
 export type arraySellSchema = z.infer<typeof arraySellSchema>
+
+export type dateFilterSchema = z.infer<typeof dateFilterSchema>

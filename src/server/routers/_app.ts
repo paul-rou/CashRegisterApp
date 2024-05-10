@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { publicProcedure, router } from '../trpc';
 import prisma from "../../lib/prisma";
-import { arraySellSchema, fullProductSchema, productSchema } from '@/schema/product.schema';
+import { arraySellSchema, dateFilterSchema, fullProductSchema, productSchema } from '@/schema/product.schema';
 
 export const appRouter = router({
   hello: publicProcedure
@@ -116,6 +116,21 @@ export const appRouter = router({
       result: results,
       products: products,
     }
+  }),
+  getSellsByDate: publicProcedure.input(dateFilterSchema).query(async ({input})=>{
+    const sells = await prisma.sell.findMany({
+      where: {
+        date: {
+          gte: input.startDate,
+          lte: input.endDate
+        }
+      }
+    });
+    return {
+      status: "200",
+      message: "Sells according to date picked fetched successfully",
+      result: sells,
+    };
   })
 });
 
