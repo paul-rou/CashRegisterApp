@@ -12,7 +12,7 @@ import { ChevronRightIcon, ChevronLeftIcon } from "@chakra-ui/icons";
 
 const DisplayTable = ({ table }: { table: Table<Sell> }) => {
   return (
-    <ChakraTable>
+    <ChakraTable id="table-to-xls">
       <Thead>
         {table.getHeaderGroups().map((headerGroup) => (
           <Tr key={headerGroup.id}>

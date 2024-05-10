@@ -1,3 +1,5 @@
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
+
 const HistoryHeaderLayout = ({ totalPrice }: { totalPrice: number }) => {
   return (
     <div className="flex items-center">
@@ -11,9 +13,19 @@ const HistoryHeaderLayout = ({ totalPrice }: { totalPrice: number }) => {
           date.
         </p>
       </div>
-      <p className="ml-5">
-        Total vendu : <strong>{totalPrice}</strong>€
-      </p>
+      <div className="flex flex-col items-center ml-5 gap-3">
+        <p>
+          Total vendu : <strong>{totalPrice}</strong>€
+        </p>
+        <ReactHTMLTableToExcel
+          id="test-table-xls-button"
+          className="w-46 h-10 bg-blue-600 hover:bg-blue-700 py-1 px-2 text-slate-200 shadow-md font-medium rounded-md"
+          table="table-to-xls"
+          filename="tableauDesVentes"
+          sheet="tablexls"
+          buttonText="Télécharger le tableau"
+        />
+      </div>
     </div>
   );
 };

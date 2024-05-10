@@ -5,6 +5,7 @@ import {
   Tooltip,
   IconButton,
   Text,
+  Select,
   NumberInputField,
   NumberInputStepper,
   NumberIncrementStepper,
@@ -19,6 +20,16 @@ import {
 } from "@chakra-ui/icons";
 
 const TablePaginationController = ({ table }: { table: Table<Sell> }) => {
+  const numberOfRows = table.getPrePaginationRowModel().rows.length;
+  const arrayOfNumberOfRowsPerPage: number[] = [];
+  [0.1, 0.2, 0.5, 0.7].forEach((percentage) => {
+    const esteemedNumberOfRows = percentage * numberOfRows;
+    if (esteemedNumberOfRows > 10) {
+      arrayOfNumberOfRowsPerPage.push(5 * Math.floor(esteemedNumberOfRows / 5));
+    }
+  });
+  arrayOfNumberOfRowsPerPage.push(numberOfRows);
+
   return (
     <Flex justifyContent="space-between" m={4} alignItems="center">
       <Flex>
@@ -72,6 +83,20 @@ const TablePaginationController = ({ table }: { table: Table<Sell> }) => {
           </NumberInputStepper>
         </NumberInput>
       </Flex>
+
+      <Select
+        w={32}
+        value={table.getState().pagination.pageSize}
+        onChange={(e) => {
+          table.setPageSize(Number(e.target.value));
+        }}
+      >
+        {arrayOfNumberOfRowsPerPage.map((pageSize) => (
+          <option key={pageSize} value={pageSize}>
+            Afficher {pageSize == numberOfRows ? "tout" : pageSize}
+          </option>
+        ))}
+      </Select>
 
       <Flex>
         <Tooltip label="Next Page">
